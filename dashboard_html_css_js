@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Tower ID Contact Centre</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+    :root {
+      --red-dark:   #510309;
+      --red-main:   #E60012;
+      --bg:         #d8d5d5;
+      --surface:    #f5f2f2;
+      --surface2:   #ffffff;
+      --border:     #680606;
+      --border-lt:  #e5e7eb;
+      --text-dark:  #030f25;
+      --text-mid:   #1f222e;
+      --text-muted: #64748b;
+      --yellow:     #facc15;
+      --amber:      #f59e0b;
+      --bad:        #ef4444;
+      --mono:       'IBM Plex Mono', monospace;
+      --sans:       'IBM Plex Sans', sans-serif;
+    }
+    
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text-dark);
+      font-family: var(--sans);
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 20px 30px;
+      background: var(--red-dark);
+      color: white;
+      border-bottom: 3px solid var(--red-main);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left{
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .header-left .icon{
+      font-size: 36px;
+      color: #e0e0e0;
+      animation: pulse-icon 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-icon { 0%,100%{opacity:1} 50%{opacity:.6} }
+    .main-title{
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: .3px;
+      line-height: 1.2;
+    }
+
+    .sub-title{
+      font-size: 14px;
+      color: #e0c8c8;
+      margin-top: 4px;
+    }
+
+    .header-right{
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .header-title{
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .legend{
+      display: flex;
+      gap: 14px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .legend-item{
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .box{
+      width: 11px;
+      height: 11px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    .yellow{
+      background: var(--yellow);
+    }
+
+    .red{
+      background: var(--bad);
+    }
+
+    .header-date{
+      font-size: 12px;
+      font-family: var(--mono);
+      color: #94a3b8;
+    }
+
+    #live-clock{
+      font-size: 11px;
+      font-family: var(--mono);
+      color: #aab4c0;
+    }
+
+    /* ── CONTAINER ── */
+    .container{
+      padding: 24px 28px;
+    }
+    .section-header{
+      margin-bottom: 18px;
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+    }
+
+    .section-title-main{
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .section-desc{
+      font-size: 14px;
+      color: #030f25;
+    }
+
+    /* ── GRID ── */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr 1fr;
+      gap: 18px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      color: var(--text-dark);
+      box-shadow: 0 4px 16px rgba(0,0,0,.07);
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .card:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0,0,0,.18);
+    }
+
+    /* Card header: title + subtitle */
+    .card-header{
+      padding-bottom: 10px;
+      margin-bottom: 4px;
+    }
+
+    .card-header h3{
+      font-size: 18px; font-weight: 700; color: var(--text-mid);
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .card-header h3 .icon{
+      font-size: 20px;
+      color: #9f3b3b;
+    }
+
+    .card-subtitle {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 3px;
+      padding-left: 28px; /* align with text after icon */
+    }
+
+    /* ── DIVIDER ── */
+    .divider{
+      border: none;
+      height: 1.5px;
+      background: #c0b8b8;
+      margin: 8px 0;
+    }
+
+    /* ── SECTION TITLE (inside card) ── */
+    .section-title {
+      border-left: 4px solid var(--red-main);
+      margin-top: 16px;
+      padding-left: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text-dark);
+      letter-spacing: .03em;
+      text-transform: uppercase;
+    }
+
+    /* Target tag below section title */
+    .target-tag {
+      display: inline-block;
+      margin-top: 4px;
+      margin-left: 12px;
+      font-size: 11px;
+      font-family: var(--mono);
+      color: var(--text-muted);
+      background: #eae6e6;
+      border-radius: 4px;
+      padding: 1px 7px;
+      letter-spacing: .02em;
+    }
+
+    /* ── TABLE ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      margin-top: 4px;
+    }
+
+    th {
+      background: #ede9e9; color: var(--text-mid);
+      font-weight: 700; text-align: center;
+      font-size: 13px; padding: 8px 4px;
+      letter-spacing: .04em;
+      /* text-transform: lowercase; */
+    }
+
+    th:first-child {
+      text-align: left;
+      padding-left: 6px;
+    }
+    
+    td {
+      padding: 7px 4px;
+      border-bottom: 1px solid var(--border-lt);
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 13px;
+    }
+
+    td:first-child {
+      text-align: left;
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    th, td {
+      border-left: none;
+      border-right: none; }
+
+    tbody tr {
+      transition: background .15s;
+      cursor: default;
+    }
+
+    tbody tr:hover {
+      background: rgba(230,0,18,.05);
+    }
+
+    /* ── KPI COLORS ── */
+    .warning {
+      color: var(--amber);
+      font-weight: 700;
+    }
+
+    .bad{
+      color: var(--bad);
+      font-weight: 700;
+    }
+
+    /* ── RESOLUTION BOX ── */
+    #resolution p {
+      margin: 10px 0; font-size: 13.5px;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 4px 0; border-bottom: 1px dashed #ddd;
+    }
+
+    #resolution p:last-child {
+      border-bottom: none;
+    }
+
+    #resolution p b {
+      font-family: var(--mono);
+      font-size: 15px;
+    }
+
+    #resolution p[data-tip] {
+      position: relative;
+      cursor: help;
+    }
+
+    #resolution p[data-tip]:hover::after {
+      content: attr(data-tip);
+      position: absolute; right: 0; bottom: 120%;
+      background: var(--text-mid); color: #fff;
+      font-size: 11px; padding: 4px 8px; border-radius: 5px;
+      white-space: nowrap; pointer-events: none; z-index: 10;
+    }
+
+    /* ── FOOTER / INSIGHT ── */
+    .footer {
+      margin-top: 20px; font-size: 14px; font-style: italic;
+      padding: 16px 20px; border-radius: 12px;
+      background: var(--surface2);
+      border-left: 5px solid var(--red-main);
+      border-top: 1px solid var(--border-lt);
+      border-right: 1px solid var(--border-lt);
+      border-bottom: 1px solid var(--border-lt);
+      color: var(--text-dark);
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .footer b {
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 700;
+      white-space: nowrap;
+      color: var(--red-dark);
+    }
+
+    /* ── LOADING OVERLAY ── */
+    /* #overlay {
+      position: fixed; inset: 0;
+      background: rgba(216,213,213,.92);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 12px; z-index: 200;
+      transition: opacity .4s;
+    }
+
+    #overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+      display: none;
+    }
+
+    .spinner {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 3px solid #ccc; border-top-color: var(--red-main);
+      animation: spin .7s linear infinite;
+    }
+
+    @keyframes spin {
+      to{
+        transform: rotate(360deg);
+      }
+    }
+
+    .overlay-msg {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+
+    .overlay-err {
+      color: var(--bad);
+      font-weight: 600;
+      max-width: 400px;
+      text-align: center;
+      line-height: 1.5;
+    } */
+
+    /* ── FADE IN ROWS ── */
+    @keyframes fadeIn {
+      from{
+        opacity:0;
+        transform:translateY(6px)
+      }
+      to{
+        opacity:1;
+        transform:none
+      }
+    }
+    
+    tbody tr {
+      animation: fadeIn .3s ease both;
+    }
+
+  </style>
+</head>
+
+<body>
+  
+  <!-- Loading overlay -->
+  <!-- <div id="overlay">
+    <div class="spinner"></div>
+    <div class="overlay-msg" id="overlay-msg">Loading dashboard data...</div>
+  </div> -->
+
+  <!-- ===== HEADER ===== -->
+  <div class="header">
+    
+    <div class="header-left">
+      <i class="fa-solid fa-tower-broadcast icon"></i>
+      <div>
+        <div class="main-title">ID Customer Servicing Hub Control Tower</div>
+        <div class="sub-title">ID Contact Centre | Daily Command View</div>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="header-title">One Source of Truth | Decision-driven alerts</div>
+      <div class="legend">
+        <div class="legend-item"><span class="box yellow"></span> Watch Closely</div>
+        <div class="legend-item"><span class="box red"></span> Need Action</div>
+      </div>
+      <div class="header-date" id="header-date"></div>
+      <div id="live-clock"></div>
+    </div>
+
+  </div>
+
+  <!-- ===== MAIN CONTAINER ===== -->
+  <div class="container">
+
+    <div class="section-header">
+      <div class="section-title-main">ID Contact Centre</div>
+      <div class="section-desc">Control Service, Protect Customers and Deliver Across Hub</div>
+    </div>
+
+    <!-- ===== 3-COLUMN GRID ===== -->
+    <div class="grid">
+
+      <!-- CARD 1: SERVICE STABILITY -->
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-triangle-exclamation icon"></i>Service Stability</h3>
+          <div class="card-subtitle">How We Are Today?</div>
+        </div>
+        <hr class="divider">
+        <table>
+          <thead>
+            <tr>
+              <th>ITEM</th>
+              <th>DAILY</th>
+              <th>MTD</th>
+              <th>PROJ EOM</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-service"></tbody>
+        </table>
+      </div>
+
+      <!-- CARD 2: DEMAND DRIVER -->
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-chart-line icon"></i>Demand Driver</h3>
+          <div class="card-subtitle">What's Happening?</div>
+        </div>
+        <hr class="divider">
+
+        <div class="section-title">Available via Digital</div>
+        <!-- <div class="target-tag">Average Portion: 70%</div> -->
+        <hr class="divider">
+        <table>
+          <thead>
+            <tr>
+              <th>INTENT</th>
+              <th>AVG DAILY</th>
+              <th>MTD</th>
+              <th>PROJ</th>
+            </tr>
+          </thead>
+          <tbody id="addressable"></tbody>
+        </table>
+
+        <div class="section-title">Not-Available via Digital</div>
+        <!-- <div class="target-tag">Average Portion: 30%</div> -->
+        <hr class="divider">
+        <table>
+          <thead>
+            <tr>
+              <th>INTENT</th>
+              <th>AVG DAILY</th>
+              <th>MTD</th>
+              <th>PROJ</th>
+            </tr>
+          </thead>
+          <tbody id="non-addressable"></tbody>
+        </table>
+      </div>
+
+      <!-- CARD 3: CUSTOMER RESOLUTION -->
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-headset icon"></i>Customer Resolution</h3>
+          <div class="card-subtitle">Are Customer Issue / Request being Resolved?</div>
+        </div>
+        <hr class="divider">
+        <div id="resolution">
+          <div class="section-title">Complaint &amp; Investigation</div>
+          <hr class="divider">
+          <p data-tip="Complaints received today"><span>Complaint Today</span><b id="complaint_today"></b></p>
+          <p data-tip="Month-to-date complaints"><span>Complaint MTD</span><b id="complaint_mtd"></b></p>
+          <p data-tip="Currently open complaints"><span>Complaint Open</span><b id="complaint_open"></b></p>
+          <p data-tip="Overdue — needs immediate action"><span>Complaint Overdue</span><b id="complaint_overdue"></b></p>
+
+          <div class="section-title">Service Request</div>
+          <hr class="divider">
+          <p data-tip="Service requests today"><span>SR Today</span><b id="sr_today"></b></p>
+          <p data-tip="Month-to-date service requests"><span>SR MTD</span><b id="sr_mtd"></b></p>
+          <p data-tip="Currently open SRs"><span>SR Open</span><b id="sr_open"></b></p>
+          <p data-tip="Overdue — needs immediate action"><span>SR Overdue</span><b id="sr_overdue"></b></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER / INSIGHT -->
+    <div class="footer">
+      <b>💡 Key Insight:</b>
+      <div id="insight"></div>
+    </div>
+
+    <!-- DATA SOURCE INFO -->
+    <div style="margin-top:10px;display:flex;align-items:center;gap:8px;font-size:11.5px;font-family:'IBM Plex Mono',monospace;color:var(--text-muted)">
+      <span id="data-source-dot" style="width:8px;height:8px;border-radius:50%;background:#94a3b8;flex-shrink:0;display:inline-block"></span>
+      <span id="data-source-label">Loading...</span>
+    </div>
+  </div>
+
+  <script>
+
+    const DASHBOARD_DATA = {"generated_at": "2026-06-12 01:05:23", "date_label": "11 Jun 2026", "addressable": [{"intent": "Fee Waiver", "avg_daily": 456, "mtd": 5021, "proj": 13694}, {"intent": "Close Card", "avg_daily": 316, "mtd": 3479, "proj": 9488}, {"intent": "Balance & Transaction Inquiry", "avg_daily": 290, "mtd": 3188, "proj": 8695}, {"intent": "Promotion & Reward", "avg_daily": 118, "mtd": 1303, "proj": 3554}, {"intent": "Statement", "avg_daily": 89, "mtd": 980, "proj": 2673}], "non_addressable": [{"intent": "Fraud", "avg_daily": 77, "mtd": 845, "proj": 2305}, {"intent": "Non AF Waiver", "avg_daily": 67, "mtd": 732, "proj": 1996}, {"intent": "Collection", "avg_daily": 55, "mtd": 601, "proj": 1639}, {"intent": "Transfer / Follow-Up", "avg_daily": 52, "mtd": 570, "proj": 1555}, {"intent": "Close Account", "avg_daily": 36, "mtd": 396, "proj": 1080}], "service_stability": [{"item": "SL Centrewide", "daily": "86%", "mtd": "84%", "proj": "87%", "status_daily": "good", "status_mtd": "good", "status_proj": "good"}, {"item": "AHT Call", "daily": 382, "mtd": 366, "proj": 357, "status_daily": "good", "status_mtd": "good", "status_proj": "good"}, {"item": "AHT Chat", "daily": 490, "mtd": 475, "proj": 476, "status_daily": "good", "status_mtd": "good", "status_proj": "good"}, {"item": "Volume", "daily": 1950, "mtd": 23857, "proj": 59220, "status_daily": "good", "status_mtd": "good", "status_proj": "good"}, {"item": "Absenteeism", "daily": "1%", "mtd": "3%", "proj": "", "status_daily": "good", "status_mtd": "good", "status_proj": "good"}], "resolution": {"complaint_today": 2, "complaint_mtd": 19, "complaint_open": 11, "complaint_overdue": 0, "complaint_overdue_status": "good", "sr_today": 2146, "sr_mtd": 23791, "sr_open": 1011, "sr_overdue": 0, "sr_overdue_status": "good"}, "insight": "nan"};
+    /* ==============================================
+       TARGET INFO — ditampilkan sebagai subtitle
+       di bawah item name di tabel Service Stability
+    ============================================== */
+    const TARGET_INFO = {
+      "SL Centrewide": "Threshold: 80%",
+      "AHT Call":      "Target: 385s",
+      "AHT Chat":      "Target: 500s",
+      "Absenteeism":   "Threshold: 5%"
+    };
+
+    /* ==============================================
+       DATE H-1
+    ============================================== */
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    document.getElementById('header-date').innerText =
+      `Data as of: ${String(d.getDate()).padStart(2,'0')} ${d.toLocaleString('en',{month:'short'})} ${d.getFullYear()}`;
+
+    /* ==============================================
+       LIVE CLOCK
+    ============================================== */
+    function updateClock() {
+      document.getElementById('live-clock').innerText = new Date().toLocaleTimeString('en-GB');
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    /* ==============================================
+       HELPER: format angka ribuan (titik, ID style)
+    ============================================== */
+    function fmt(val) {
+      if (typeof val === 'number') return val.toLocaleString('id-ID');
+      return val;
+    }
+
+    function renderService(rows) {
+      document.getElementById('tbody-service').innerHTML = rows.map((row, i) => {
+        const target = TARGET_INFO[row.item]
+          ? `<br><span style="font-size:10.5px;color:var(--text-muted);font-style:italic">${TARGET_INFO[row.item]}</span>`
+          : '';
+        const sd = row.status_daily || row.status || 'good';
+        const sm = row.status_mtd || row.status || 'good';
+        const sp = row.status_proj || row.status || 'good'
+        return `
+          <tr style="animation-delay:${i * 0.05}s">
+            <td>${row.item}${target}</td>
+            <td class="${sd !== 'good' ? sd: ''}">${fmt(row.daily)}</td>
+            <td class="${sm !== 'good' ? sm: ''}">${fmt(row.mtd)}</td>
+            <td class="${sp !== 'good' ? sp: ''}">${fmt(row.proj)}</td>
+          </tr>`;
+      }).join('');
+    }
+
+    function renderDemand(addr, non) {
+      document.getElementById('addressable').innerHTML = addr.map((row, i) => `
+        <tr style="animation-delay:${i * 0.05}s">
+          <td>${row.intent}</td>
+          <td>${fmt(row.avg_daily)}</td>
+          <td>${fmt(row.mtd)}</td>
+          <td>${fmt(row.proj)}</td>
+        </tr>`).join('');
+
+      document.getElementById('non-addressable').innerHTML = non.map((row, i) => `
+        <tr style="animation-delay:${i * 0.05}s">
+          <td>${row.intent}</td>
+          <td>${fmt(row.avg_daily)}</td>
+          <td>${fmt(row.mtd)}</td>
+          <td>${fmt(row.proj)}</td>
+        </tr>`).join('');
+    }
+
+    function renderResolution(r) {
+      function set(id, val, status) {
+        const el = document.getElementById(id);
+        el.innerText = fmt(val);
+        el.className = (status == 'bad' || status == 'warning') ? status : '';
+      }
+      set('complaint_today',   r.complaint_today);
+      set('complaint_mtd',     r.complaint_mtd);
+      set('complaint_open',    r.complaint_open);
+      set('complaint_overdue', r.complaint_overdue, r.complaint_overdue_status);
+      set('sr_today',          r.sr_today);
+      set('sr_mtd',            r.sr_mtd);
+      set('sr_open',           r.sr_open);
+      set('sr_overdue',        r.sr_overdue, r.sr_overdue_status);
+    }
+
+    function renderInsight(text) {
+      document.getElementById('insight').innerText = text;
+    }
+
+    function renderAll(data) {
+      renderService(data.service_stability);
+      renderDemand(data.addressable, data.non_addressable);
+      renderResolution(data.resolution);
+      renderInsight(data.insight);
+    }
+
+    // load data tanpa fetch
+
+    function loadData() {
+
+      // langsung render data
+      renderAll(DASHBOARD_DATA);
+
+      // update info sumber data
+      const dot = document.getElementById('data-source-dot');
+      const label = document.getElementById('data-source-label');
+
+      if (dot) dot.style.background = '#22c55e';
+      if (label) {
+        const generated = DASHBOARD_DATA.generated_at || '--';
+        label.innerText = `Source: dashboard_data.json | Generated: ${generated}`;
+      }
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
