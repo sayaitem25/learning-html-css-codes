@@ -547,7 +547,7 @@
 
   <script>
 
-    const DASHBOARD_DATA = {"generated_at": "2026-06-12 01:05:23", "date_label": "11 Jun 2026", "addressable": [{"intent": "Fee Waiver", "avg_daily": 456, "mtd": 5021, "proj": 13694}, {"intent": "Close Card", "avg_daily": 316, "mtd": 3479, "proj": 9488}, {"intent": "Balance & Transaction Inquiry", "avg_daily": 290, "mtd": 3188, "proj": 8695}, {"intent": "Promotion & Reward", "avg_daily": 118, "mtd": 1303, "proj": 3554}, {"intent": "Statement", "avg_daily": 89, "mtd": 980, "proj": 2673}], "non_addressable": [{"intent": "Fraud", "avg_daily": 77, "mtd": 845, "proj": 2305}, {"intent": "Non AF Waiver", "avg_daily": 67, "mtd": 732, "proj": 1996}, {"intent": "Collection", "avg_daily": 55, "mtd": 601, "proj": 1639}, {"intent": "Transfer / Follow-Up", "avg_daily": 52, "mtd": 570, "proj": 1555}, {"intent": "Close Account", "avg_daily": 36, "mtd": 396, "proj": 1080}], "service_stability": [{"item": "SL Centrewide", "daily": "86%", "mtd": "84%", "proj": "87%", "status_daily": "good", "status_mtd": "good", "status_proj": "good"}, {"item": "AHT Call", "daily": 382, "mtd": 366, "proj": 357, "status_daily": "good", "status_mtd": "good", "status_proj": "good"}, {"item": "AHT Chat", "daily": 490, "mtd": 475, "proj": 476, "status_daily": "good", "status_mtd": "good", "status_proj": "good"}, {"item": "Volume", "daily": 1950, "mtd": 23857, "proj": 59220, "status_daily": "good", "status_mtd": "good", "status_proj": "good"}, {"item": "Absenteeism", "daily": "1%", "mtd": "3%", "proj": "", "status_daily": "good", "status_mtd": "good", "status_proj": "good"}], "resolution": {"complaint_today": 2, "complaint_mtd": 19, "complaint_open": 11, "complaint_overdue": 0, "complaint_overdue_status": "good", "sr_today": 2146, "sr_mtd": 23791, "sr_open": 1011, "sr_overdue": 0, "sr_overdue_status": "good"}, "insight": "nan"};
+    const DASHBOARD_DATA = __DATA_PLACEHOLDER__;
     /* ==============================================
        TARGET INFO — ditampilkan sebagai subtitle
        di bawah item name di tabel Service Stability
@@ -580,7 +580,7 @@
        HELPER: format angka ribuan (titik, ID style)
     ============================================== */
     function fmt(val) {
-      if (typeof val === 'number') return val.toLocaleString('id-ID');
+      if (typeof val === 'number') return val.toLocaleString('en-US');
       return val;
     }
 
